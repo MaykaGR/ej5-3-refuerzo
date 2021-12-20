@@ -42,7 +42,7 @@ fun main() {
     }
     // Sino lo está, introducimos un nuevo contacto
     else{
-        println("El contacto no está en agenga, vamos a incluirlo")
+        println("El contacto no está en agenda, vamos a incluirlo")
         println("Introduce nombre: ")
         var nombre = readLine()?.toUpperCase()?: ""
         println("Introduce tlf: ")
