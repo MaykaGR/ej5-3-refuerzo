@@ -1,4 +1,5 @@
 import kotlin.system.exitProcess
+
 // Clase para agrupar nombre con teléfono
 data class Contacto(val nombre: String, val tlf: String){
     companion object{
@@ -8,7 +9,7 @@ data class Contacto(val nombre: String, val tlf: String){
         }
     }
 }
-//Clase agenda que recoge los datos de contactos 
+//Clase agenda que recoge los datos de contactos
 data class Agenda(val datos: MutableMap<String, String>){
     //Función que recibe un contacto y lo añade al conjunto de datos de la agenda
     fun add(contacto: Contacto): MutableMap <String, String>{
@@ -16,11 +17,19 @@ data class Agenda(val datos: MutableMap<String, String>){
         return datos
     }
     //Función que busca si un contacto está o no en la agenda, por nombre o por número de teléfono, útil si sólo queremos saber si está o no
-        fun buscar(comparador: String): Boolean{
-            if(comparador in datos.keys){return true}
-            else if(comparador in datos.values){return true}
-            else return false
+    fun buscar(comparador: String): Boolean{
+        if(comparador in datos.keys){return true}
+        else if(comparador in datos.values){return true}
+        else return false
     }
+}
+fun nombre(palabra: String): Boolean{
+    if (palabra.first().isLetter()){return true}
+    else return false
+}
+fun tlf(palabra: String): Boolean{
+    if(palabra.first().isDigit()){return true}
+    else return false
 }
 
 fun main() {
@@ -34,20 +43,27 @@ fun main() {
     //Se pasa lo que se introduzca a mayúsculas para que la búsqueda sea independiente de cómo se introduzca el nombre
     var comparador = readLine()?.toUpperCase()?: ""
     // Comprobamos si el contacto está en la agenda
+    var name = ""
+    var phone = ""
     if (agenda.buscar(comparador)==true){
         // Si lo está, miramos si lo introducido es el nombre o el número para mostrar el resto de datos
-       if(comparador in agenda.datos.keys){
+        if(comparador in agenda.datos.keys){
             println(agenda.datos[comparador])
         } else {println(agenda.datos.filterValues{ it.contains(comparador)})}
     }
     // Sino lo está, introducimos un nuevo contacto
     else{
         println("El contacto no está en agenda, vamos a incluirlo")
-        println("Introduce nombre: ")
-        var nombre = readLine()?.toUpperCase()?: ""
-        println("Introduce tlf: ")
-        var tlf = readLine()?: ""
-        agenda.add(Contacto.crearContacto(nombre,tlf))
+            if(tlf(comparador)==true){
+            println("Introduce nombre: ")
+             name = readLine()?.toUpperCase()?: ""
+             phone =comparador}
+            else if(nombre(comparador)==true){
+            println("Introduce tlf: ")
+            phone = readLine()?: ""
+            name = comparador}
+            else {println("error")}
+        agenda.add(Contacto.crearContacto(name,phone))
     }
     println(agenda)
     // Comandos especiales
@@ -60,8 +76,8 @@ fun main() {
     }
     comparador = readLine()?.toUpperCase()?: ""
     if(comparador in agenda.datos.keys){
-            println(agenda.datos.filterKeys{ it.contains(comparador)})
-        }
+        println(agenda.datos.filterKeys{ it.contains(comparador)})
+    }
     else if(comparador in agenda.datos.values){
         println(agenda.datos.filterValues{ it.contains(comparador)})
     }
