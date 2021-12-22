@@ -23,6 +23,7 @@ data class Agenda(val datos: MutableMap<String, String>){
         else return false
     }
 }
+//Las dos funciones siguientes(nombre y tlf) son para comprobar si la palabra a filtrar introducida es un nombre o un teléfono
 fun nombre(palabra: String): Boolean{
     if (palabra.first().isLetter()){return true}
     else return false
